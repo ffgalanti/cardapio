@@ -1,10 +1,16 @@
 package br.net.erponline.cardapio.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_ingredient")
@@ -15,6 +21,10 @@ public class Ingredient {
 	private Long id;
 	
 	private String name;
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "ingredients")
+	private Set<Product> products = new HashSet<>();	
 	
 	public Ingredient() {
 		
@@ -40,6 +50,10 @@ public class Ingredient {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Set<Product> getProducts() {
+		return products;
 	}
 
 	@Override

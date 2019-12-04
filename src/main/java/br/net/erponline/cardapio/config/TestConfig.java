@@ -62,14 +62,14 @@ public class TestConfig implements CommandLineRunner{
 		Product p3 = new Product(null, "Suco de Abacaxi", 19.90);
 		
 		p1.getCategories().addAll(Arrays.asList(cat1, cat2));
-//		p1.getIngredients().addAll(Arrays.asList(ig1, ig2));
-//		
+		p1.getIngredients().addAll(Arrays.asList(ig1, ig2));
+		
 		p2.getCategories().addAll(Arrays.asList(cat1, cat3));
-//		p1.getIngredients().addAll(Arrays.asList(ig2, ig3));
-//		
+		p2.getIngredients().addAll(Arrays.asList(ig2, ig3));
+		
 		p3.getCategories().addAll(Arrays.asList(cat1));
-//		p1.getIngredients().addAll(Arrays.asList(ig1, ig2, ig3, ig4));
-//			
+		p3.getIngredients().addAll(Arrays.asList(ig1, ig2, ig3, ig4));
+			
 		productRepository.saveAll(Arrays.asList(p1, p2, p3));
 //
 //		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.PAID, u1);

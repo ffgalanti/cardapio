@@ -26,6 +26,10 @@ public class Product {
 	@ManyToMany
 	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
+
+	@ManyToMany
+	@JoinTable(name = "tb_product_ingredient", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
+	private Set<Ingredient> ingredients = new HashSet<>();
 	
 	public Product() {
 		
@@ -64,6 +68,10 @@ public class Product {
 
 	public Set<Category> getCategories() {
 		return categories;
+	}
+
+	public Set<Ingredient> getIngredients() {
+		return ingredients;
 	}
 
 	@Override

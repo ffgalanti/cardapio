@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import br.net.erponline.cardapio.entities.Category;
+import br.net.erponline.cardapio.entities.Ingredient;
 import br.net.erponline.cardapio.repositories.CategoryRepository;
+import br.net.erponline.cardapio.repositories.IngredientRepository;
 
 @Configuration
 @Profile("test")
@@ -19,9 +21,9 @@ public class TestConfig implements CommandLineRunner{
 //
 	@Autowired
 	private CategoryRepository categoryRepository;
-//
-//	@Autowired
-//	private IngredientRepository ingredientRepository;
+
+	@Autowired
+	private IngredientRepository ingredientRepository;
 //	
 //	@Autowired
 //	private ProductRepository productRepository; 
@@ -42,17 +44,17 @@ public class TestConfig implements CommandLineRunner{
 		Category cat1 = new Category(null, "Lanche");
 		Category cat2 = new Category(null, "Pizza");
 		Category cat3 = new Category(null, "Suco");
-//		
+		
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
-//		
-//		Ingredient ig1 = new Ingredient(null, "tomate");
-//		Ingredient ig2 = new Ingredient(null, "orégano");
-//		Ingredient ig3 = new Ingredient(null, "cebola");
-//		Ingredient ig4 = new Ingredient(null, "mussarela");
-//		Ingredient ig5 = new Ingredient(null, "presunto");
-//
-//		ingredientRepository.saveAll(Arrays.asList(ig1, ig2, ig3, ig4, ig5));
-//		
+		
+		Ingredient ig1 = new Ingredient(null, "tomate");
+		Ingredient ig2 = new Ingredient(null, "orégano");
+		Ingredient ig3 = new Ingredient(null, "cebola");
+		Ingredient ig4 = new Ingredient(null, "mussarela");
+		Ingredient ig5 = new Ingredient(null, "presunto");
+
+		ingredientRepository.saveAll(Arrays.asList(ig1, ig2, ig3, ig4, ig5));
+		
 //		Product p1 = new Product(null, "Pizza de mussarela", 29.5);
 //		Product p2 = new Product(null, "Pizza de mussarela", 35.50);
 //		Product p3 = new Product(null, "Pizza de mussarela", 19.90);

@@ -57,5 +57,8 @@ public class ProductService {
 	private void updateData(Product newProduct, Product product) {
 		newProduct.setName(product.getName());
 		newProduct.setPrice(product.getPrice());
+		
+		newProduct.getCategories().addAll(product.getCategories());
+		newProduct.getIngredients().addAll(product.getIngredients());
 	}
 }

@@ -1,5 +1,6 @@
 package br.net.erponline.cardapio.entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,17 +13,22 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "tb_product")
-public class Product {
-
+public class Product implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String name;
 	private Double price;
+	private String imageUrl;
 
+	@JsonBackReference
 	@ManyToMany
 	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
@@ -40,8 +46,17 @@ public class Product {
 		this.id = id;
 		this.name = name;
 		this.price = price;
+		this.imageUrl = "";
 	}
 
+	public Product(Long id, String name, Double price, String imageUrl) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.imageUrl = imageUrl;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -66,6 +81,15 @@ public class Product {
 		this.price = price;
 	}
 
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+//	@JsonIgnore
 	public Set<Category> getCategories() {
 		return categories;
 	}

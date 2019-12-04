@@ -1,8 +1,14 @@
 package br.net.erponline.cardapio.config;
 
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+
+import br.net.erponline.cardapio.entities.Category;
+import br.net.erponline.cardapio.repositories.CategoryRepository;
 
 @Configuration
 @Profile("test")
@@ -11,8 +17,8 @@ public class TestConfig implements CommandLineRunner{
 //	@Autowired
 //	private UserRepository userRepository;
 //
-//	@Autowired
-//	private CategoryRepository categoryRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
 //
 //	@Autowired
 //	private IngredientRepository ingredientRepository;
@@ -33,11 +39,11 @@ public class TestConfig implements CommandLineRunner{
 //		
 //		userRepository.saveAll(Arrays.asList(u1, u2));
 //		
-//		Category cat1 = new Category(null, "Lanche");
-//		Category cat2 = new Category(null, "Pizza");
-//		Category cat3 = new Category(null, "Suco");
+		Category cat1 = new Category(null, "Lanche");
+		Category cat2 = new Category(null, "Pizza");
+		Category cat3 = new Category(null, "Suco");
 //		
-//		categoryRepository.saveAll(Arrays.asList(cat1, cat2));
+		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 //		
 //		Ingredient ig1 = new Ingredient(null, "tomate");
 //		Ingredient ig2 = new Ingredient(null, "orégano");

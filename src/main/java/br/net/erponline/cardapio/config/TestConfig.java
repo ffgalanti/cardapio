@@ -9,8 +9,10 @@ import org.springframework.context.annotation.Profile;
 
 import br.net.erponline.cardapio.entities.Category;
 import br.net.erponline.cardapio.entities.Ingredient;
+import br.net.erponline.cardapio.entities.Product;
 import br.net.erponline.cardapio.repositories.CategoryRepository;
 import br.net.erponline.cardapio.repositories.IngredientRepository;
+import br.net.erponline.cardapio.repositories.ProductRepository;
 
 @Configuration
 @Profile("test")
@@ -24,10 +26,10 @@ public class TestConfig implements CommandLineRunner{
 
 	@Autowired
 	private IngredientRepository ingredientRepository;
-//	
-//	@Autowired
-//	private ProductRepository productRepository; 
-//
+	
+	@Autowired
+	private ProductRepository productRepository; 
+
 //	@Autowired
 //	private OrderRepository orderRepository;
 //
@@ -55,20 +57,20 @@ public class TestConfig implements CommandLineRunner{
 
 		ingredientRepository.saveAll(Arrays.asList(ig1, ig2, ig3, ig4, ig5));
 		
-//		Product p1 = new Product(null, "Pizza de mussarela", 29.5);
-//		Product p2 = new Product(null, "Pizza de mussarela", 35.50);
-//		Product p3 = new Product(null, "Pizza de mussarela", 19.90);
-//		
-//		p1.getCategories().addAll(Arrays.asList(cat1, cat2));
+		Product p1 = new Product(null, "Pizza de mussarela", 29.5);
+		Product p2 = new Product(null, "X-Salada", 35.50);
+		Product p3 = new Product(null, "Suco de Abacaxi", 19.90);
+		
+		p1.getCategories().addAll(Arrays.asList(cat1, cat2));
 //		p1.getIngredients().addAll(Arrays.asList(ig1, ig2));
 //		
-//		p1.getCategories().addAll(Arrays.asList(cat1, cat3));
+		p2.getCategories().addAll(Arrays.asList(cat1, cat3));
 //		p1.getIngredients().addAll(Arrays.asList(ig2, ig3));
 //		
-//		p1.getCategories().addAll(Arrays.asList(cat1));
+		p3.getCategories().addAll(Arrays.asList(cat1));
 //		p1.getIngredients().addAll(Arrays.asList(ig1, ig2, ig3, ig4));
 //			
-//		productRepository.saveAll(Arrays.asList(p1, p2, p3));
+		productRepository.saveAll(Arrays.asList(p1, p2, p3));
 //
 //		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.PAID, u1);
 //		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.WAITING_PAYMENT, u2);

@@ -10,31 +10,31 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import br.net.erponline.cardapio.entities.Category;
-import br.net.erponline.cardapio.repositories.CategoryRepository;
+import br.net.erponline.cardapio.entities.Product;
+import br.net.erponline.cardapio.repositories.ProductRepository;
 import br.net.erponline.cardapio.services.exceptions.DatabaseException;
 import br.net.erponline.cardapio.services.exceptions.ResourceNotFoundException;
 
 @Service
-public class CategoryService {
+public class ProductService {
 
 	@Autowired
-	private CategoryRepository repository;
+	private ProductRepository repository;
 	
-	public List<Category> findAll() {
+	public List<Product> findAll() {
 		return repository.findAll();
 	}
 	
-	public Category findById(Long id) {
-		Optional<Category> entity = repository.findById(id);
-		return entity.orElseThrow(() -> new ResourceNotFoundException(id));
+	public Product findById(Long id) {
+		Optional<Product> product = repository.findById(id);
+		return product.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
-	public Category insert(Category category) {
-		return repository.save(category);
+	public Product insert(Product product) {
+		return repository.save(product);
 	}
 	
-	public void delete (Long id) {
+	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
@@ -44,17 +44,18 @@ public class CategoryService {
 		}
 	}
 	
-	public Category update(Long id, Category category) {
+	public Product update(Long id, Product product) {
 		try {
-			Category newCategory = repository.getOne(id);
-			updateData(newCategory, category);
-			return repository.save(newCategory);
+			Product newProduct = repository.getOne(id);
+			updateData(newProduct, product);
+			return repository.save(newProduct);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}
 	}
 
-	private void updateData(Category newCategory, Category category) {
-		newCategory.setName(category.getName());
+	private void updateData(Product newProduct, Product product) {
+		newProduct.setName(product.getName());
+		newProduct.setPrice(product.getPrice());
 	}
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import br.net.erponline.cardapio.entities.Category;
 import br.net.erponline.cardapio.repositories.CategoryRepository;
 import br.net.erponline.cardapio.services.exceptions.DatabaseException;
-import br.net.erponline.cardapio.services.exceptions.ResourceNotFoundException;
+import br.net.erponline.cardapio.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoryService {
@@ -27,7 +27,7 @@ public class CategoryService {
 	
 	public Category findById(Long id) {
 		Optional<Category> entity = repository.findById(id);
-		return entity.orElseThrow(() -> new ResourceNotFoundException(id));
+		return entity.orElseThrow(() -> new ObjectNotFoundException(id));
 	}
 	
 	public Category insert(Category category) {
@@ -38,7 +38,7 @@ public class CategoryService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException(id);
+			throw new ObjectNotFoundException(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
 		}
@@ -50,7 +50,7 @@ public class CategoryService {
 			updateData(newCategory, category);
 			return repository.save(newCategory);
 		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException(id);
+			throw new ObjectNotFoundException(id);
 		}
 	}
 

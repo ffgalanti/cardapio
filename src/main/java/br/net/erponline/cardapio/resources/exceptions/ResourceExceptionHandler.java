@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.net.erponline.cardapio.services.exceptions.DatabaseException;
-import br.net.erponline.cardapio.services.exceptions.ResourceNotFoundException;
+import br.net.erponline.cardapio.services.exceptions.ObjectNotFoundException;
 import br.net.erponline.cardapio.utils.Translators;
 
 // captura as exceções para poder fazer tratamento
@@ -20,8 +20,8 @@ public class ResourceExceptionHandler {
 
 	static ResourceBundle resourceBundle = new Translators().getIdioma();
 	
-	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
+	@ExceptionHandler(ObjectNotFoundException.class)
+	public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request) {
 		String error = resourceBundle.getString("error.NotFound");
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		

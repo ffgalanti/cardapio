@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import br.net.erponline.cardapio.entities.Ingredient;
 import br.net.erponline.cardapio.repositories.IngredientRepository;
 import br.net.erponline.cardapio.services.exceptions.DatabaseException;
-import br.net.erponline.cardapio.services.exceptions.ResourceNotFoundException;
+import br.net.erponline.cardapio.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class IngredientService {
@@ -27,7 +27,7 @@ public class IngredientService {
 	
 	public Ingredient findById(Long id) {
 		Optional<Ingredient> ingredient = repository.findById(id);
-		return ingredient.orElseThrow(() -> new ResourceNotFoundException(id));
+		return ingredient.orElseThrow(() -> new ObjectNotFoundException(id));
 	}
 	
 	public Ingredient insert(Ingredient ingredient) {
@@ -38,7 +38,7 @@ public class IngredientService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException(id);
+			throw new ObjectNotFoundException(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
 		}
@@ -50,7 +50,7 @@ public class IngredientService {
 			updateData(newIngredient, ingredient);
 			return repository.save(newIngredient);
 		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException(id);
+			throw new ObjectNotFoundException(id);
 		}
 	}
 

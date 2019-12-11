@@ -28,6 +28,12 @@ public class ProductResource {
 
 	@Autowired
 	private ProductService service;
+		
+	@GetMapping
+	public ResponseEntity<List<Product>> findAll() {
+		List<Product> products = service.findAll();
+		return ResponseEntity.ok().body(products);
+	}
 	
 	@GetMapping(value = "/search")
 	public ResponseEntity<Page<ProductDTO>> findPage(
@@ -46,12 +52,6 @@ public class ProductResource {
 		
 		Page<ProductDTO> productsDTO = products.map(product -> new ProductDTO(product));
 		return ResponseEntity.ok().body(productsDTO);
-	}
-	
-	@GetMapping
-	public ResponseEntity<List<Product>> findAll() {
-		List<Product> products = service.findAll();
-		return ResponseEntity.ok().body(products);
 	}
 	
 	@GetMapping(value = "/{id}")

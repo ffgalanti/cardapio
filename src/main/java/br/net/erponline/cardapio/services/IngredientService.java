@@ -8,6 +8,9 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.net.erponline.cardapio.entities.Ingredient;
@@ -21,6 +24,11 @@ public class IngredientService {
 	@Autowired
 	private IngredientRepository repository;
 	
+	public Page<Ingredient> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repository.findAll(pageRequest);
+	}
+
 	public List<Ingredient> findAll() {
 		return repository.findAll();
 	}

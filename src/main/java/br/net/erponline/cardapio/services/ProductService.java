@@ -1,5 +1,6 @@
 package br.net.erponline.cardapio.services;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,12 +8,14 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.net.erponline.cardapio.entities.Category;
 import br.net.erponline.cardapio.entities.Product;
@@ -23,12 +26,20 @@ import br.net.erponline.cardapio.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class ProductService {
-
 	@Autowired
 	private ProductRepository repository;
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private ImageService imageService;
+	
+	@Value("${img.prefix.product}")
+	private String prefix;
+		
+	@Value("${img.path.product}")
+	private String imgPathSubDir;
 	
 	public Page<Product> search(String name, List<Long> categoriesId,Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
@@ -82,4 +93,11 @@ public class ProductService {
 		newProduct.getCategories().addAll(product.getCategories());
 		newProduct.getIngredients().addAll(product.getIngredients());
 	}
+	
+	public URI uploadPicture(MultipartFile multipartFile) {
+		String fileName = prefix + "0000" + ".jpg";
+		
+		URI uri = imageService.uploadFile(multipartFile, imgPathSubDir, fileName);
+		return uri;
+	}	
 }

@@ -6,18 +6,38 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FilenameUtils;
 import org.imgscalr.Scalr;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.net.erponline.cardapio.services.exceptions.FileException;
 
 @Service
 public class ImageService {
+//	private static Logger LOG = LoggerFactory.getLogger(ProductService.class);
+	
+//	@Autowired
+//	private ServletContext servletContext;
+
+	@Value("${img.path.http}")
+	private String imgPathHttp;
+
+	@Value("${img.path.harddisk}")
+	private String imgPathDir;
+
+	@Value("${img.profile.size}")
+	private Integer size;
 
 	public BufferedImage getJpgImageFromFile(MultipartFile uploadedFile) {
 		String ext = FilenameUtils.getExtension(uploadedFile.getOriginalFilename());
@@ -47,7 +67,7 @@ public class ImageService {
 		try {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			ImageIO.write(img, extension, os);
-			return new ByteArrayInputStream(os.toByteArray());
+			return new ByteArrayInputStream(os.toByteArray());			
 		} catch (IOException e) {
 			throw new FileException("Erro ao ler arquivo");
 		}
@@ -65,5 +85,37 @@ public class ImageService {
 	
 	public BufferedImage resize(BufferedImage sourceImg, int size) {
 		return Scalr.resize(sourceImg, Scalr.Method.ULTRA_QUALITY, size);
+	}
+
+	public URI uploadFile(MultipartFile multipartFile, String pathSubDir, String fileName) {
+		ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequestUri();
+		URI newUri = builder.build().toUri();
+				
+		try {
+//			String fileNameString = servletContext.getContextPath() + imgPathDir + pathSubDir + "/" + fileName;
+			String fileNameString = imgPathDir + pathSubDir + "/" + fileName;
+			String fileNameHttp = newUri.getHost() + imgPathHttp + pathSubDir + "/" + fileName;
+
+			BufferedImage jpgImage = this.getJpgImageFromFile(multipartFile);
+			jpgImage = this.cropSquare(jpgImage);
+			jpgImage = this.resize(jpgImage, size);
+		
+			InputStream is = this.getInputStream(jpgImage, "jpg");
+			
+			Path path = Paths.get(fileNameString);
+			if (!Files.exists(path)) {
+				Files.createDirectories(path);
+			}			
+			Files.copy(is, Paths.get(fileNameString), StandardCopyOption.REPLACE_EXISTING);
+		
+			try {
+				URI uri = URI.create(fileNameHttp); //Paths.get(fileNameString).toUri();
+				return uri;
+			} catch (Exception e) {
+				return null;
+			}						
+		} catch (IOException e) {
+			throw new FileException(e.getMessage());
+		}
 	}
 }

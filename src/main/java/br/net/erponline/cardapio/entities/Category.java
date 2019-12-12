@@ -22,6 +22,7 @@ public class Category implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	private String imageUrl;
 
 	@JsonManagedReference
 	@ManyToMany(mappedBy = "categories")
@@ -55,6 +56,14 @@ public class Category implements Serializable {
 
 	public Set<Product> getProducts() {
 		return products;
+	}
+	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	@Override

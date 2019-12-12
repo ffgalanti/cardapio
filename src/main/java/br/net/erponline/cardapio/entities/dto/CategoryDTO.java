@@ -17,6 +17,8 @@ public class CategoryDTO implements Serializable{
 	@Length(min = 3, max = 80, message = "{validation.numbercharacter}")
 	private String name;
 	
+	private String imageUrl;
+
 	public CategoryDTO() {
 
 	}
@@ -24,6 +26,7 @@ public class CategoryDTO implements Serializable{
 	public CategoryDTO(Category category) {
 		this.id = category.getId();
 		this.name = category.getName();
+		this.imageUrl = category.getImageUrl();
 	}
 
 	public Long getId() {
@@ -40,5 +43,13 @@ public class CategoryDTO implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
-	}	
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 }
